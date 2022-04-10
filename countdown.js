@@ -1,5 +1,9 @@
 export default class Countdown {
     constructor(targetDate) {
+        this.#_constructor(targetDate)
+    }
+
+    #_constructor(targetDate) {
         if (!targetDate) {
             throw new Error('targetDate cannot be null or undefined.')
         }
@@ -17,21 +21,22 @@ export default class Countdown {
         }
         else throw new Error('Invalid data type.')
     }
-    get _targetDate() {
+    
+    get #_targetDate() {
         return new Date(this.targetDate)
     }
-    get _currDate() {
+    get #_currDate() {
         return new Date()
     }
     get timeDiff() {
-        return this._targetDate.getTime() - this._currDate.getTime()
+        return this.#_targetDate.getTime() - this.#_currDate.getTime()
     }
     get years() {
         return Math.trunc(this.timeDiff / (365 * 3600 * 24 * 1000))
     }
     get months() {
-        const _monthNumberDiff = this._targetDate.getMonth() - this._currDate.getMonth()
-        if (this._targetDate.getDate() < this._currDate.getDate()) {
+        const _monthNumberDiff = this.#_targetDate.getMonth() - this.#_currDate.getMonth()
+        if (this.#_targetDate.getDate() < this.#_currDate.getDate()) {
             return (_monthNumberDiff - 1)
         }
         else return _monthNumberDiff
@@ -55,5 +60,8 @@ export default class Countdown {
             minutes: this.minutes%60,
             seconds: this.seconds%60
         }
+    }
+    set setTargetDate(targetDate) {
+        this.#_constructor(targetDate)
     }
 }
